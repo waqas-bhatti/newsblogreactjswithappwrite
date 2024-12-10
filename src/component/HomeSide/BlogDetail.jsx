@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { AiOutlineLike } from "react-icons/ai";
-import { FaRegComment } from "react-icons/fa";
+import { AiOutlineLike, AiFillLike } from "react-icons/ai";
+import { FaRegComment, FaFacebook, FaTwitter } from "react-icons/fa";
 import { IoShareSocialOutline } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 import appwriteService from "../../AppwriteStore/appStorageService";
 import { LineWave } from "react-loader-spinner";
-import { NavLink } from "react-router-dom";
 import { IoLogoWhatsapp } from "react-icons/io";
-import { FaTwitter } from "react-icons/fa";
-import { FaFacebook } from "react-icons/fa";
-import { AiFillLike } from "react-icons/ai";
 
 function BlogDetail() {
   const [commentStates, setCommentStates] = useState({});
@@ -50,13 +46,13 @@ function BlogDetail() {
         );
         setRelatedPosts(related);
 
-        // Initialize comment and like states
+        // Initialize like states
         const initialLikeStates = related.reduce(
           (acc, relPost) => {
             acc[relPost.$id] = { liked: false, count: relPost.likes || 0 };
             return acc;
           },
-          { [postId]: { liked: false, count: foundPost.likes || 0 } } // Add main post's ID
+          { [postId]: { liked: false, count: foundPost.likes || 0 } }
         );
 
         // Initialize comment states
@@ -67,18 +63,9 @@ function BlogDetail() {
               return acc;
             },
             { [postId]: false }
-          ) // Add main post's ID
-        );
-        setLike(initialLikeStates);
-        setLikeCount(
-          related.reduce(
-            (acc, relPost) => {
-              acc[relPost.$id] = false;
-              return acc;
-            },
-            { [postId]: false }
           )
         );
+        setLike(initialLikeStates);
         setCommentTexts({});
       } catch (error) {
         console.error("Can't fetch post details from appwrite", error);
@@ -213,10 +200,10 @@ function BlogDetail() {
               </div>
               <div className="flex justify-between items-center p-4 bg-black bg-opacity-80 border-t rounded-b-lg">
                 <button
-                  onClick={() => toggleLike(postId)}
+                  onClick={() => toggleLike(related.$id)}
                   className="flex items-center space-x-2 text-blue-500"
                 >
-                  {like[postId]?.liked ? (
+                  {like[related.$id]?.liked ? (
                     <>
                       <AiFillLike />
                       <span>Liked</span>
@@ -228,7 +215,9 @@ function BlogDetail() {
                     </>
                   )}
                 </button>
-                <span className="text-white">{like[postId]?.count} Likes</span>
+                <span className="text-white">
+                  {like[related.$id]?.count} Likes
+                </span>
                 <button
                   onClick={() => toggleCommentSection(related.$id)}
                   className="flex items-center space-x-2 text-blue-500"
@@ -273,7 +262,7 @@ function BlogDetail() {
                 className="bg-white rounded-lg shadow-lg p-6"
                 onClick={(e) => e.stopPropagation()}
               >
-                <h3 className="text-lg font-semibold">Share Social Media</h3>
+                <h3 className="text-lg font-semibold">Share on Social Media</h3>
                 <div className="flex flex-1 gap-4">
                   <IoLogoWhatsapp className="text-4xl text-green-800 " />
                   <FaTwitter className="text-4xl text-black " />

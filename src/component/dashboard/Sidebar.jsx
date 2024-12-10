@@ -6,8 +6,7 @@ import { SiChatbot } from "react-icons/si";
 import { MdDashboardCustomize } from "react-icons/md";
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
-import { RiSidebarUnfoldFill } from "react-icons/ri";
-import { RiSidebarFoldFill } from "react-icons/ri";
+import { RiSidebarUnfoldFill, RiSidebarFoldFill } from "react-icons/ri";
 
 const Sidebar = ({ isAdmin }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
